@@ -1,0 +1,77 @@
+// 1. setup & variable
+$primary-color: #137a7f;
+$secondary-color: #86cecb;
+$success-color: #2ecc71;
+$danger-color: #e12885;
+$warning-color: #e488d6;
+
+// // mixin
+// @mixin responsive($breakpoint) {
+//     @if $breakpoint == sm {
+//         @media (max-width: 576px) { @content; }
+//     } @else if $breakpoint == md {
+//         @media (max-width: 768px) { @content; }
+//     } @else if $breakpoint == lg {
+//         @media (max-width: 992px) { @content; }
+//     } @else if $breakpoint == xl {
+//         @media (max-width: 1200px) { @content; }
+//     }
+// }
+
+$breakpoints: (
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px
+);
+
+@mixin col($size) {
+    flex: 0 0 percentage($size / 12);
+    max-width: percentage($size / 12);
+}
+
+// grid
+.container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+@each $breakpoint, $size in $breakpoints {
+    @media (min-width: $size) {
+        @for $i from 1 through 12 {
+            .col-#{$breakpoint}-#{$i} {
+                @include col($i);
+                border: 1px solid #ccc;
+            }
+        }
+    }
+}
+// [class^="col-"] {
+//     border: 1px solid #ccc;
+//     flex: 1;
+//     padding: 10px;
+// }
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    &-primary { background: $primary-color; color: #fff; }
+    &-secondary { background: $secondary-color; color: #fff; }
+    &-success { background: $success-color; color: #fff; }
+    &-danger { background: $danger-color; color: #fff; }
+}
+
+.img {
+    &-responsive { max-width: 100%; height: auto; }
+    &-rounded { border-radius: 25%; }
+    &-circle { border-radius: 50%; }
+    &-thumbnail { border: 1px solid #ccc; }
+    &-blur { filter: blur(5px); }
+}
