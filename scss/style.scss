@@ -1,22 +1,13 @@
-// 1. setup & variable
-$primary-color: #137a7f;
-$secondary-color: #86cecb;
-$success-color: #2ecc71;
-$danger-color: #e12885;
-$warning-color: #e488d6;
-
-// // mixin
-// @mixin responsive($breakpoint) {
-//     @if $breakpoint == sm {
-//         @media (max-width: 576px) { @content; }
-//     } @else if $breakpoint == md {
-//         @media (max-width: 768px) { @content; }
-//     } @else if $breakpoint == lg {
-//         @media (max-width: 992px) { @content; }
-//     } @else if $breakpoint == xl {
-//         @media (max-width: 1200px) { @content; }
-//     }
-// }
+$colors: (
+    primary: #137a7f,
+    secondary: #86cecb,
+    success: #2ecc71,
+    info: #3498db,
+    danger: #e12885,
+    warning: #e488d6,
+    muted: #6c757d,
+    error: #dc3545
+);
 
 $breakpoints: (
     sm: 576px,
@@ -28,13 +19,24 @@ $breakpoints: (
 @mixin col($size) {
     flex: 0 0 percentage($size / 12);
     max-width: percentage($size / 12);
+    border: 1px solid #ccc;
 }
 
 // grid
-.container {
+@each $breakpoint, $size in $breakpoints {
+    @media (max-width: $size) {
+        .container-#{$breakpoint} {
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+    }
+}
+
+.container-fluid {
     width: 100%;
-    margin: 0 auto;
     padding: 0 15px;
+    margin: 0 auto;
 }
 
 .row {
@@ -42,30 +44,83 @@ $breakpoints: (
     flex-wrap: wrap;
 }
 
+@for $i from 1 through 12 {
+    .col-#{$i} {
+        @include col($i);
+    }
+}
+
 @each $breakpoint, $size in $breakpoints {
-    @media (min-width: $size) {
+    @media (max-width: $size) {
         @for $i from 1 through 12 {
             .col-#{$breakpoint}-#{$i} {
                 @include col($i);
-                border: 1px solid #ccc;
+            }
+        }
+        .col-#{$breakpoint} {
+            @include col(12);
+        }
+    }
+}
+
+@mixin btn-style($color, $size: md) {
+
+    @if $size == sm {
+        padding: 5px 10px;
+    } @else if $size == md {
+        padding: 10px 15px;
+    } @else if $size == lg {
+        padding: 15px 20px;
+    }
+
+    background: $color;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    
+    &:hover {
+        background: darken($color, 10%);
+    }
+    
+    &.active {
+        box-shadow: 0 0 5px lighten($color, 20%);
+    }
+    
+    &:disabled, &.disabled {
+        background: lighten($color, 20%);
+        cursor: not-allowed;
+    }
+}
+
+@each $name, $color in $colors {
+    .btn-#{$name} {
+        @include btn-style($color);
+    }
+    @each $breakpoint, $size in $breakpoints {
+        @media (max-width: $size) {
+            .btn-#{$name}-#{$breakpoint} {
+                @include btn-style($color, $breakpoint);
             }
         }
     }
 }
-// [class^="col-"] {
-//     border: 1px solid #ccc;
-//     flex: 1;
-//     padding: 10px;
-// }
 
-.btn {
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    &-primary { background: $primary-color; color: #fff; }
-    &-secondary { background: $secondary-color; color: #fff; }
-    &-success { background: $success-color; color: #fff; }
-    &-danger { background: $danger-color; color: #fff; }
+@each $name, $color in $colors {
+    .text-#{$name} { color: $color; }
+    .bg-#{$name} { background-color: $color; }
+}
+
+@each $name, $color in $colors {
+    .alert-#{$name} {
+        background: lighten($color, 40%);
+        color: darken($color, 20%);
+        padding: 15px;
+        border-radius: 5px;
+        margin: 10px 0;
+        position: relative;
+    }
 }
 
 .img {
