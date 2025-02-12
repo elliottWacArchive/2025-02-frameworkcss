@@ -130,3 +130,59 @@ $breakpoints: (
     &-thumbnail { border: 1px solid #ccc; }
     &-blur { filter: blur(5px); }
 }
+
+$primary-color: #343a40;
+$secondary-color: #ffffff;
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $primary-color;
+    padding: 1rem 2rem;
+
+    &-brand {
+        color: $secondary-color;
+        font-size: 1.5rem;
+        text-decoration: none;
+    }
+
+    .navbar-toggler {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+        gap: 5px;
+
+        span {
+            width: 25px;
+            height: 3px;
+            background: $secondary-color;
+        }
+
+        @media (max-width: 768px) {
+            display: flex;
+        }
+    }
+
+    .menu {
+        display: flex;
+        list-style: none;
+        gap: 1rem;
+
+        .nav-item {
+            .nav-link {
+                color: darken($secondary-color, 20%);
+                text-decoration: none;
+                transition: color 0.3s;
+
+                &.active {
+                    color: lighten($secondary-color, 20%);
+                }
+
+                &:hover {
+                    color: lighten($secondary-color, 20%);
+                }
+            }
+        }
+    }
+}
