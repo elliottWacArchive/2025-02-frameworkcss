@@ -164,15 +164,19 @@ $secondary-color: #ffffff;
     }
 
     .menu {
-        display: none;
+        display: flex;
         flex-direction: column;
         flex-basis: 100%;
         list-style: none;
         gap: 1rem;
 
-        &.show {
-            display: flex;
+        &:not(.show) {
+            display: none;
         }
+
+        // &.show {
+        //     display: flex;
+        // }
 
         .nav-item {
             .nav-link {
