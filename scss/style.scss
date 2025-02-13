@@ -22,7 +22,8 @@ $breakpoints: (
     border: 1px solid #ccc;
 }
 
-// grid
+// GRID
+
 @each $breakpoint, $size in $breakpoints {
     @media (max-width: $size) {
         .container-#{$breakpoint} {
@@ -94,6 +95,8 @@ $breakpoints: (
     }
 }
 
+// BUTTONS
+
 @each $name, $color in $colors {
     .btn-#{$name} {
         @include btn-style($color);
@@ -107,10 +110,14 @@ $breakpoints: (
     }
 }
 
+// TEXT
+
 @each $name, $color in $colors {
     .text-#{$name} { color: $color; }
     .bg-#{$name} { background-color: $color; }
 }
+
+// ALERTS
 
 @each $name, $color in $colors {
     .alert-#{$name} {
@@ -123,6 +130,8 @@ $breakpoints: (
     }
 }
 
+// IMAGES
+
 .img {
     &-responsive { max-width: 100%; height: auto; }
     &-rounded { border-radius: 25%; }
@@ -130,6 +139,8 @@ $breakpoints: (
     &-thumbnail { border: 1px solid #ccc; }
     &-blur { filter: blur(5px); }
 }
+
+// NAVBAR
 
 $primary-color: #343a40;
 $secondary-color: #ffffff;
@@ -193,5 +204,13 @@ $secondary-color: #ffffff;
                 }
             }
         }
+    }
+}
+
+// POPINS
+
+.modal {
+    &:not(.show) {
+        display: none;
     }
 }
