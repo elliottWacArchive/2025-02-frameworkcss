@@ -9,29 +9,50 @@ $colors: (
     error: #dc3545
 );
 
+// $breakpoints: (
+//     sm: 576px,
+//     md: 768px,
+//     lg: 992px,
+//     xl: 1200px
+// );
+
 $breakpoints: (
-    sm: 576px,
-    md: 768px,
-    lg: 992px,
-    xl: 1200px
+    sm: 0px,
+    md: 576px,
+    lg: 768px,
+    xl: 992px
 );
 
 @mixin col($size) {
-    flex: 0 0 percentage($size / 12);
-    max-width: percentage($size / 12);
+    // flex: 0 0 percentage($size / 12);
+    // max-width: percentage($size / 12);
+    width: percentage($size / 12);
     border: 1px solid #ccc;
+}
+
+@mixin cont($size) {
+    width: percentage($size / 12);
+    margin: 0 auto;
+    padding: 0 15px;
 }
 
 // GRID
 
 @each $breakpoint, $size in $breakpoints {
-    @media (max-width: $size) {
+    @media (min-width: $size) {
+        @for $i from 1 through 12 {
+            .container-#{$breakpoint}-#{$i} {
+                @include cont($i);
+            }
+        }
         .container-#{$breakpoint} {
-            width: 100%;
-            margin: 0 auto;
-            padding: 0 15px;
+            @include cont(12);
         }
     }
+}
+
+.container {
+    @include cont(12);
 }
 
 .container-fluid {
@@ -42,7 +63,7 @@ $breakpoints: (
 
 .row {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 
 @for $i from 1 through 12 {
@@ -51,8 +72,12 @@ $breakpoints: (
     }
 }
 
+.col {
+    @include col(12);
+}
+
 @each $breakpoint, $size in $breakpoints {
-    @media (max-width: $size) {
+    @media (min-width: $size) {
         @for $i from 1 through 12 {
             .col-#{$breakpoint}-#{$i} {
                 @include col($i);
@@ -212,5 +237,34 @@ $secondary-color: #ffffff;
 .modal {
     &:not(.show) {
         display: none;
+    }
+}
+
+// TABLIST
+
+.tab-list {
+    display: flex;
+    list-style: none;
+    gap: 1rem;
+    padding: 15px;
+    margin: 0;
+    align-items: center;
+    background-color: $primary-color;
+    color: darken($secondary-color, 20%);
+    cursor: pointer;
+    li:hover {
+        color: lighten($secondary-color, 20%);
+    }
+    .active {
+        color: lighten($secondary-color, 20%);
+    }
+}
+
+.tab-content {
+    .tab-pane {
+        &:not(.active) {
+            display: none;
+        }
+
     }
 }
