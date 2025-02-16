@@ -49,4 +49,65 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
     });
+
+    const tooltips = document.querySelectorAll(".tooltip");
+
+    tooltips.forEach(e => {
+        let tooltipText = e.getAttribute("title");
+        if (!tooltipText) {
+            return;
+        }
+
+        e.removeAttribute("title");
+
+        let tooltipBox = document.createElement("div");
+        tooltipBox.className = "tooltip-box";
+        tooltipBox.textContent = tooltipText;
+        document.body.appendChild(tooltipBox);
+
+        if (e.dataset.bg) {
+            tooltipBox.style.background = e.dataset.bg;
+        }
+        if (e.dataset.color) {
+            tooltipBox.style.color = e.dataset.color;
+        }
+        if (e.dataset.size) {
+            tooltipBox.style.fontSize = e.dataset.size;
+        }
+
+        e.addEventListener("mouseenter", () => {
+            tooltipBox.style.display = "block";
+            tooltipBox.style.opacity = "1";
+            positionTooltip(e, tooltipBox);
+        });
+
+        e.addEventListener("mousemove", () => positionTooltip(e, tooltipBox));
+
+        e.addEventListener("mouseleave", () => {
+            tooltipBox.style.display = "none";
+        });
+    });
+
+    function positionTooltip(e, tooltipBox) {
+        let rect = e.getBoundingClientRect();
+        let placement = e.dataset.placement || "right";
+
+        switch (placement) {
+        case "right":
+            tooltipBox.style.left = rect.right + "px";
+            tooltipBox.style.top = rect.top + window.scrollY + "px";
+            break;
+        case "left":
+            tooltipBox.style.left = rect.left - tooltipBox.offsetWidth + "px";
+            tooltipBox.style.top = rect.top + window.scrollY + "px";
+            break;
+        case "bottom":
+            tooltipBox.style.left = rect.left + "px";
+            tooltipBox.style.top = rect.bottom + window.scrollY + "px";
+            break;
+        default:
+            tooltipBox.style.left = rect.left + "px";
+            tooltipBox.style.top = rect.top - tooltipBox.offsetHeight + window.scrollY + "px";
+        }
+    }
 });

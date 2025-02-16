@@ -273,3 +273,15 @@ $secondary-color: #ffffff;
 
     }
 }
+
+// TOOLTIP
+
+.tooltip-box {
+    position: absolute;
+    background: $primary-color;
+    color: $secondary-color;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: .9em;
+    display: none;
+}
